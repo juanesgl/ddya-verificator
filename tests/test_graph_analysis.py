@@ -30,13 +30,15 @@ def test_detect_plagiarism_communities() -> None:
 
 
 def test_export_graph_to_html(tmp_path: Path) -> None:
-    """Verifies that the HTML visualization is generated properly."""
+    """Verifies that the HTML visualization is generated properly with groups."""
     comparisons = [("alice.py", "bob.py", 0.95)]
+    node_groups = {"alice.py": "Exercise A", "bob.py": "Exercise A"}
     output_file = tmp_path / "plagiarism_network.html"
 
-    export_graph_to_html(comparisons, output_file)
+    export_graph_to_html(comparisons, output_file, node_groups)
 
     assert output_file.exists()
+
     content = output_file.read_text(encoding="utf-8").lower()
     assert "<html" in content
     assert "alice.py" in content
